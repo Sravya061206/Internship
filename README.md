@@ -1,4 +1,4 @@
-#Password Strength Analyzer
+Password Strength Analyzer
 A Flask‑based web application with a strict password policy. It analyses user‑entered passwords in real time and enforces strong security rules.
 
 Features
