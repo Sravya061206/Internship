@@ -23,8 +23,10 @@ A lightweight Flask web application that scans a target (IP, hostname, or URL) f
     cd vulnerability-scanner
 
 2. Step2: Environment Setup
+    ```bash
     python -m venv venv
     pip install -r requirements.txt
 
 3. Step3: Run application
+    ```bash
     python webapp.py
