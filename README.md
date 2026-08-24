@@ -24,13 +24,6 @@ A lightweight Flask web application that scans a target (IP, hostname, or URL) f
 
 2. Step2: Environment Setup
     python -m venv venv
-
-    # Windows
-    venv\Scripts\activate
-
-    # macOS/Linux
-    source venv/bin/activate
-
     pip install -r requirements.txt
 
 3. Step3: Run application
