@@ -28,5 +28,5 @@ A lightweight Flask web application that scans a target (IP, hostname, or URL) f
     pip install -r requirements.txt
 
 ## Run application
-    ```bash
+```bash
     python webapp.py
