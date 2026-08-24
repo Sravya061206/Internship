@@ -1,0 +1,119 @@
+import socket
+import datetime
+import re
+import os
+from urllib.parse import urlparse
+from service_scanner import analyze_services, extract_service_version
+from cve_scanner import check_vulnerable_version
+
+# Common ports list
+COMMON_PORTS = [21, 22, 23, 25, 53, 80, 110, 143, 443, 465, 587, 993, 995, 3306, 8080, 5000]
+
+def normalize_target(target: str) -> str:
+    parsed = urlparse(target)
+    if parsed.scheme:
+        return parsed.netloc
+    return target.strip("/")
+
+def sanitize_filename(target: str) -> str:
+    return re.sub(r'[^A-Za-z0-9._-]', '_', target)
+
+def resolve_target(target: str):
+    try:
+        return socket.gethostbyname(target)
+    except Exception as e:
+        print(f"DNS resolution failed: {e}")
+        return None
+
+def full_port_scan(target, mode="common", start=1, end=1024, custom_ports=None):
+    """
+    mode = "common" → scan common ports
+    mode = "range"  → scan from start to end
+    mode = "list"   → scan custom_ports list
+    """
+    if mode == "common":
+        ports = COMMON_PORTS
+    elif mode == "range":
+        ports = range(start, end + 1)
+    elif mode == "list" and custom_ports:
+        ports = custom_ports
+    else:
+        ports = COMMON_PORTS
+
+    open_ports = {}
+    for port in ports:
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(0.6)
+            result = sock.connect_ex((target, port))
+            if result == 0:
+                banner = "Unknown service"
+                try:
+                    # Try HTTP style probe first
+                    sock.send(b"HEAD / HTTP/1.0\r\n\r\n")
+                    banner = sock.recv(2048).decode(errors="ignore").strip()
+                except Exception:
+                    try:
+                        sock.send(b"\r\n")
+                        banner = sock.recv(2048).decode(errors="ignore").strip()
+                    except Exception:
+                        banner = "Unknown service"
+                open_ports[port] = banner
+            sock.close()
+        except Exception:
+            pass
+    return open_ports
+
+def generate_report_items(open_ports):
+    """
+    Build structured report items for the template:
+    Each item: { title, details, fix, severity }
+    """
+    items = []
+    # First, add service analysis warnings (e.g., telnet, anonymous FTP)
+    service_issues = analyze_services(open_ports)
+    for issue in service_issues:
+        items.append({
+            "title": issue,
+            "details": issue,
+            "fix": "Review service configuration; disable or patch as appropriate.",
+            "severity": "medium"
+        })
+
+    # Then, per-port CVE checks
+    for port, banner in open_ports.items():
+        service, version = extract_service_version(banner)
+        # If no service extracted, fallback to port label
+        if not service:
+            service = f"port-{port}"
+        vulns = check_vulnerable_version(service, version)
+        if vulns:
+            for v in vulns:
+                title = f"Port {port}: {service} {version or ''} → {v.get('cve_id')}"
+                items.append({
+                    "title": title,
+                    "details": v.get("description", "No description"),
+                    "fix": v.get("fix"),
+                    "severity": v.get("severity", "low")
+                })
+        else:
+            # If no CVEs, still add a low severity note for visibility
+            title = f"Port {port}: {service} {version or ''} — no known CVEs"
+            items.append({
+                "title": title,
+                "details": "No known vulnerabilities detected for this service/version.",
+                "fix": None,
+                "severity": "low"
+            })
+
+    return items
+
+def save_report(target, report_text):
+    os.makedirs("reports", exist_ok=True)
+    safe_target = sanitize_filename(normalize_target(target))
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"vuln_report_{safe_target}_{timestamp}.txt"
+    path = os.path.join("reports", filename)
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(report_text)
+    return filename
