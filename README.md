@@ -1,2 +1,48 @@
-# Internship
-Mini Project 
+# Phishing Email Detection
+
+This project demonstrates a simple machine learning model for detecting phishing emails using **Scikit‑learn**.  
+It uses **CountVectorizer** for feature extraction and a **Naive Bayes classifier**, achieving ~83% accuracy on the sample dataset.
+
+---
+
+## 🚀 Features
+- Train on a dataset of phishing and legitimate emails (`dataset.csv`).
+- Extract textual features (keywords, URLs, suspicious phrases).
+- Classify emails as **Phishing 🚨** or **Safe ✅**.
+- Display **accuracy** and a **confusion matrix**.
+- Flask UI to:
+  - Paste email text directly.
+  - Upload files (`CSV`, `TXT`, `PDF`).
+  - Fallback to sample dataset if no input is provided.
+
+---
+
+## ⚙️ Setup Instructions
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/phishing-email-detector.git
+   cd phishing-email-detector
+
+2. Create a virtual environment
+   ```bash
+    python3 -m venv venv
+    source venv/bin/activate   # Linux/macOS
+    venv\Scripts\activate      # Windows
+
+3. Install dependencies:
+   ```bash
+    pip install -r requirements.txt
+
+4. Train the model:
+   ```bash
+    python model.py
+
+5. This generates:
+   ```bash
+   phishing_model.pkl
+   vectorizer.pkl
+   static/confusion_matrix.png
+
+6. Run the Flask app:
+   ```bash
+    python app.py
