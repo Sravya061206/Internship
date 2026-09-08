@@ -12,23 +12,21 @@ A secure login web application built with **Flask**, featuring:
 
 ## Setup Instructions
 
-### 1. Clone the repository
+1. Clone the repository
 ```bash
 git clone https://github.com/yourusername/secure-login.git
 cd secure-login
 
----
 2. Setup Environment
 ```bash
 python -m venv venv
 venv\Scripts\activate   # Windows
 source venv/bin/activate # Linux/Mac
 
----
 3. Install Dependency
 ```bash
 pip install -r requirements.txt
 
----
-### 4. Run the application
+4. Run the application
+```bash
 python app.py
