@@ -20,8 +20,8 @@ It uses **CountVectorizer** for feature extraction and a **Naive Bayes classifie
 ## ⚙️ Setup Instructions
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/phishing-email-detector.git
-   cd phishing-email-detector
+   git clone https://github.com/Sravya061206/Internship.git
+   cd Internship
 
 2. Create a virtual environment
    ```bash
