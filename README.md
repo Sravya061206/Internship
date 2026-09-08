@@ -18,7 +18,7 @@ git clone https://github.com/yourusername/secure-login.git
 cd secure-login
 
 ### 2. Setup Environment
-```
+```bash
 python -m venv venv
 venv\Scripts\activate   # Windows
 source venv/bin/activate # Linux/Mac
