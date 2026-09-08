@@ -10,24 +10,22 @@ A secure login web application built with **Flask**, featuring:
 
 ---
 
-## Setup Instructions
+##  Setup Instructions
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/phishing-email-detector.git
+   cd phishing-email-detector
 
-1. Clone the repository
-```bash
-git clone https://github.com/yourusername/secure-login.git
-cd secure-login
+2. Create a virtual environment
+   ```bash
+    python3 -m venv venv
+    source venv/bin/activate   # Linux/macOS
+    venv\Scripts\activate      # Windows
 
----
-2. Setup Environment
-```bash
-python -m venv venv
-venv\Scripts\activate   # Windows
-source venv/bin/activate # Linux/Mac
+3. Install dependencies:
+   ```bash
+    pip install -r requirements.txt
 
-3. Install Dependency
-```bash
-pip install -r requirements.txt
-
-4. Run the application
-```bash
-python app.py
+4. Run the Flask app:
+   ```bash
+    python app.py
