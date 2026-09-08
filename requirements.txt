@@ -1,0 +1,7 @@
+Flask
+Flask-Session
+bcrypt
+sqlalchemy
+pyotp
+qrcode
+flask_sqlalchemy

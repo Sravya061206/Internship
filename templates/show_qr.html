@@ -1,0 +1,11 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height:70vh;">
+  <div class="card p-4 shadow-sm text-center" style="max-width: 400px; width: 100%;">
+    <h2 class="mb-3">Scan this QR code</h2>
+    <img src="data:image/png;base64,{{ qr_b64 }}" alt="QR Code" class="img-fluid mx-auto d-block mb-3" style="max-width:250px;">
+    <p>Open Google Authenticator or Authy, scan this QR, then use the generated 6‑digit code to log in.</p>
+    <a href="/login" class="btn btn-primary w-100">Go to Login</a>
+  </div>
+</div>
+{% endblock %}
