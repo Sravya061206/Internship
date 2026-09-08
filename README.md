@@ -19,8 +19,8 @@ A lightweight Flask web application that scans a target (IP, hostname, or URL) f
 
 1. Step1: Clone the repository:
     ```bash
-    git clone url
-    cd vulnerability-scanner
+    git clone https://github.com/Sravya061206/Internship.git
+    cd Internship
 
 2. Step2: Environment Setup
     ```bash
