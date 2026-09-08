@@ -96,5 +96,10 @@ def logout():
     flash("Logged out successfully.")
     return redirect(url_for("login"))
 
+# Below is the code to run the Flask app. This should be placed at the end of your webapp.py file. 
+# it will start the Flask development server when you run the script directly. 
+# If you want run service on a public IP, you can change the host to ' app.run(host="0.0.0.0", port=5000, debug=True)
+# If you want run service on localhost only, you can change the host to ' app.run(host="127.0.0.1", port=5000, debug=True)
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
